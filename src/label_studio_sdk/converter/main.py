@@ -9,6 +9,7 @@ from label_studio_sdk.converter.converter import (
 )
 from label_studio_sdk.converter.exports.csv import ExportToCSV
 from label_studio_sdk.converter.imports import yolo as import_yolo, coco as import_coco
+from imports import yolo_obb as import_yolo_obb
 from label_studio_sdk.converter.utils import ExpandFullPath
 
 logging.basicConfig(level=logging.INFO)
@@ -100,6 +101,7 @@ def get_all_args():
     )
     import_format = parser_import.add_subparsers(dest="import_format")
     import_yolo.add_parser(import_format)
+    import_yolo_obb.add_parser(import_format)
     import_coco.add_parser(import_format)
 
     return parser.parse_args()
@@ -165,6 +167,17 @@ def export(args):
 def imports(args):
     if args.import_format == "yolo":
         import_yolo.convert_yolo_to_ls(
+            input_dir=args.input,
+            out_file=args.output,
+            to_name=args.to_name,
+            from_name=args.from_name,
+            out_type=args.out_type,
+            image_root_url=args.image_root_url,
+            image_ext=args.image_ext,
+        )
+
+    elif args.import_format == "yolo_obb":
+        import_yolo_obb.convert_yolo_obb_to_ls(
             input_dir=args.input,
             out_file=args.output,
             to_name=args.to_name,
