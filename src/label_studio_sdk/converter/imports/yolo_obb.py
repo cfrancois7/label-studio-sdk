@@ -117,7 +117,6 @@ def convert_yolo_obb_to_ls(
                 # default to opening file if we aren't given image dims. slow!
                 with Image.open(os.path.join(images_dir, image_file)) as im:
                     image_width, image_height = im.size
-                    print(im.size)
             else:
                 image_width, image_height = image_dims
 
@@ -134,7 +133,6 @@ def convert_yolo_obb_to_ls(
                     ls_yolo_obb_dict = convert_yolo_obb_to_annotation(
                         xyxyxyxy, image_width, image_height
                     )
-                    print("rotation:", ls_yolo_obb_dict["rotation"])
                     ls_yolo_obb_dict["rectanglelabels"] = [categories[int(label_id)]]
                     item = {
                         "id": uuid.uuid4().hex[0:10],
